@@ -31,12 +31,13 @@ class OpenFileInCursorAction : AnAction() {
         val settings = AppSettingsState.getInstance()
         val cursorPath = settings.cursorPath
         
+        val fileProtocol = settings.fileProtocol
         val command = when {
             System.getProperty("os.name").lowercase().contains("mac") -> {
-                arrayOf("open", "-a", "$cursorPath", "cursor://file$filePath:$line:$column")
+                arrayOf("open", "-a", cursorPath, "${fileProtocol}file$filePath:$line:$column")
             }
             System.getProperty("os.name").lowercase().contains("windows") -> {
-                arrayOf("cmd", "/c", "$cursorPath", "--goto", "$filePath:$line:$column")
+                arrayOf("cmd", "/c", cursorPath, "--goto", "$filePath:$line:$column")
             }
             else -> {
                 arrayOf(cursorPath, "--goto", "$filePath:$line:$column")
